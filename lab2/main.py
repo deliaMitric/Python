@@ -174,6 +174,35 @@ def ex11(tuples_list):
     print(sorted_list)
     return sorted_list
 
+#Exercitiul 12
+#Write a function that will receive a list of words  as parameter and will return a list of lists of words, grouped by rhyme.
+# Two words rhyme if both of them end with the same 2 letters.
+def ex12(list_of_strings):
+    final_list = []
+
+    while len(list_of_strings):
+        current_list = []
+        first_string = list_of_strings[0]
+
+        if len(first_string) > 1:
+            suffix = first_string[-2:]
+
+            for string in list_of_strings:
+                if string.endswith(suffix):
+                    current_list.append(string)
+            for string in current_list:
+                list_of_strings.remove(string)
+
+            final_list.append(current_list)
+
+        else:
+            current_list = [first_string]
+            final_list.append(current_list)
+            list_of_strings.remove(first_string)
+
+    print(final_list)
+    return final_list
+
 
 def main():
     #ex1()
@@ -187,7 +216,8 @@ def main():
     #ex8(["test", "hello", "lab002"], x=2)
     #ex9([[1, 2, 3, 2, 1, 1],[2, 4, 4, 3, 7, 2],[5, 5, 2, 5, 6, 4],[6, 6, 7, 6, 7, 5]])
     #ex10([1, 2, 3], [10, 20, 30,40,40], ["a", "b", "c"])
-    ex11([('abc', 'bcd'), ('abc', 'zza'),('abc', 'qw'),('abc','z')])
+    #ex11([('abc', 'bcd'), ('abc', 'zza'),('abc', 'qw'),('abc','z')])
+    ex12(['ana', 'banana', 'carte', 'arme', 'parte', 'a', 'na'])
 
 if __name__ == "__main__":
     main()
