@@ -31,9 +31,14 @@ def ex2(list_of_numbers):
 def ex3(first_list, second_list):
 
     list_intersection = list(filter(lambda element: element in first_list, second_list))
-    list_reunion = list(set(first_list + second_list))
+    #list_reunion = list(set(first_list + second_list))
     difference_first_second = list(filter(lambda element: element not in second_list, first_list))
     difference_second_first = list(filter(lambda element: element not in first_list, second_list))
+
+    list_reunion = first_list.copy()
+    for element in second_list:
+        if element not in list_reunion:
+            list_reunion.append(element)
 
     print(list_intersection)
     print(list_reunion)
@@ -208,7 +213,7 @@ def main():
     #ex1()
     #ex2([1,2,4,7,11,24,23,16,100,97])
     #ex2([4,6,8,10,34])
-    #ex3([1,2,3,4,5],[3,4,5,6,7])
+    ex3([1,2,3,4,5],[3,4,5,6,7])
     #ex4(["do", "re", "mi", "fa", "sol"], [1, -3, 4, 2], 2)
     #ex5([[1,2,3],[4,5,6],[7,8,9]])
     #ex6(3,[1, 2, 3, 3, 4, 5],[3, 4, 4, 5, 6, 7],[5, 6, 6, 7, 8, "text"])
@@ -217,7 +222,7 @@ def main():
     #ex9([[1, 2, 3, 2, 1, 1],[2, 4, 4, 3, 7, 2],[5, 5, 2, 5, 6, 4],[6, 6, 7, 6, 7, 5]])
     #ex10([1, 2, 3], [10, 20, 30,40,40], ["a", "b", "c"])
     #ex11([('abc', 'bcd'), ('abc', 'zza'),('abc', 'qw'),('abc','z')])
-    ex12(['ana', 'banana', 'carte', 'arme', 'parte', 'a', 'na'])
+    #ex12(['ana', 'banana', 'carte', 'arme', 'parte', 'a', 'na'])
 
 if __name__ == "__main__":
     main()
