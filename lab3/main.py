@@ -127,10 +127,22 @@ def ex5(rules, elements):
 #Write a function that receives as a parameter a list and returns a tuple (a, b), representing the number of
 # unique elements in the list, and b representing the number of duplicate elements in the list (use sets to achieve this objective).
 def ex6(elements):
+    #varianta in care se numara toate aparitiile in plus ale unui element unic, ex: [5,5,3,3,3] -> (2,3)
+    # if isinstance(elements, list):
+    #     elements_set = set(elements)
+    #     return (len(elements_set), len(elements) - len(elements_set))
+
+    ##varinta in care se numara doar o data duplicatul, ex: [5,5,3,3,3] -> (2,2)
     if isinstance(elements, list):
         elements_set = set(elements)
-        return (len(elements_set), len(elements) - len(elements_set))
+        number_duplicate = 0
+        for unique_element in elements_set:
+            if elements.count(unique_element) > 1:
+                number_duplicate += 1
+        return (len(elements_set), number_duplicate)
+
     return "not a list!"
+
 
 #ex7
 #Write a function that receives a variable number of sets and returns a dictionary with the following operations from all sets two by two:
@@ -248,8 +260,8 @@ def main():
     # 'dictionare': {'a': 10, 'b': 20}}))
     #ex4("a", "Hello there", href=" http://python.org ", _class=" my-link ", id= " someid ")
     #print(ex5({("key1", "", "inside", ""), ("key2", "start", "middle", "winter")}, {"key1": "come inside, it's too cold out", "key2": "start with middle  part of the winter"}))
-    #print(ex6([1, 2, 2, 3, 4, 3, 4, 1, 6, 7, 8, 9, 7]))
-    print(ex7({1, 2, 3}, {}, {3, 5, 8}))
+    print(ex6([1, 2, 2, 3, 4, 3, 4, 1, 6, 7, 8, 9, 7, 3, 7]))
+    #print(ex7({1, 2, 3}, {}, {3, 5, 8}))
     #print(ex8({'start': 'a', 'b': 'a', 'a': '6', '6': 'z', 'x': '2', 'z': '2', '2': '2', 'y': 'start'}))
     #print(ex9(1, 2, 3, 4,'123', x='123', y=2, z=3, w=5))
 if __name__ == "__main__":
