@@ -142,26 +142,68 @@ def ex7(*sets):
     for first_set in sets:
         sets_copy.remove(first_set)
         for second_set in sets_copy:
+            if len(first_set) > 0 and len(second_set) > 0:
+                key = str(first_set)
+                key += " | "
+                key += str(second_set)
+                dict_operations[key] = first_set | second_set
 
-            key = str(first_set)
-            key += " | "
-            key += str(second_set)
-            dict_operations[key] = first_set | second_set
+                key = str(first_set)
+                key += " & "
+                key += str(second_set)
+                dict_operations[key] = first_set & second_set
 
-            key = str(first_set)
-            key += " & "
-            key += str(second_set)
-            dict_operations[key] = first_set & second_set
+                key = str(first_set)
+                key += " - "
+                key += str(second_set)
+                dict_operations[key] = first_set - second_set
 
-            key = str(first_set)
-            key += " - "
-            key += str(second_set)
-            dict_operations[key] = first_set - second_set
+                key = str(second_set)
+                key += " - "
+                key += str(first_set)
+                dict_operations[key] = second_set - first_set
 
-            key = str(second_set)
-            key += " - "
-            key += str(first_set)
-            dict_operations[key] = second_set - first_set
+            elif len(first_set) == 0:
+                key = str(first_set)
+                key += " | "
+                key += str(second_set)
+                dict_operations[key] = second_set
+
+                key = str(first_set)
+                key += " & "
+                key += str(second_set)
+                dict_operations[key] = {}
+
+                key = str(first_set)
+                key += " - "
+                key += str(second_set)
+                dict_operations[key] = {}
+
+                key = str(second_set)
+                key += " - "
+                key += str(first_set)
+                dict_operations[key] = second_set
+
+            elif len(second_set) == 0:
+                key = str(first_set)
+                key += " | "
+                key += str(second_set)
+                dict_operations[key] = first_set
+
+                key = str(first_set)
+                key += " & "
+                key += str(second_set)
+                dict_operations[key] = {}
+
+                key = str(first_set)
+                key += " - "
+                key += str(second_set)
+                dict_operations[key] = first_set
+
+                key = str(second_set)
+                key += " - "
+                key += str(first_set)
+                dict_operations[key] = {}
     return dict_operations
 
 #ex8 (10)
@@ -207,8 +249,8 @@ def main():
     #ex4("a", "Hello there", href=" http://python.org ", _class=" my-link ", id= " someid ")
     #print(ex5({("key1", "", "inside", ""), ("key2", "start", "middle", "winter")}, {"key1": "come inside, it's too cold out", "key2": "start with middle  part of the winter"}))
     #print(ex6([1, 2, 2, 3, 4, 3, 4, 1, 6, 7, 8, 9, 7]))
-    #print(ex7({1, 2, 3}, {1, 2}, {3, 5, 8}))
+    print(ex7({1, 2, 3}, {}, {3, 5, 8}))
     #print(ex8({'start': 'a', 'b': 'a', 'a': '6', '6': 'z', 'x': '2', 'z': '2', '2': '2', 'y': 'start'}))
-    print(ex9(1, 2, 3, 4,'123', x='123', y=2, z=3, w=5))
+    #print(ex9(1, 2, 3, 4,'123', x='123', y=2, z=3, w=5))
 if __name__ == "__main__":
     main()
