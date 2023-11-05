@@ -100,24 +100,26 @@ def ex5(rules, elements):
         if not isinstance(value, str):
             return False
 
+        new_value = ""
         #daca cheia si valoarea e string verificam daca respecta o ragula din rules
         for rule in rules:
             if rule[0] == key:
                 find = True
 
-                #sufix
+                #prefix
                 if rule[1] != "" and not value.startswith(rule[1]):
+                    return False
+                new_value += value[len(rule[1]):]
+
+                #sufix
+                if rule[3] != "" and not new_value.endswith(rule[3]):
                     return False
 
                 #middle
-                # aici cauta rule[2] in mijlocul lui value si sufixul sau prefixul poate contine rule[2]
-                # varianta in care am cauta rule[2] dar sa nu acceptam si cazuld e includere in prefix/sufix ar fi: value.find(rule[2], len(rule1), len(rule[2]) - len(rule[3]))
-                if rule[2] != "" and not value.find(rule[2], 1, len(rule[2]) - 1):
+                if rule[2] != "" and not new_value.find(rule[2], 0, len(new_value) - len(rule[3])):
                     return False
 
-                #prefix
-                if rule[3] != "" and not value.endswith(rule[3]):
-                    return False
+
 
         if not find:
             return False
@@ -259,8 +261,8 @@ def main():
     # 'seturi': {1, (1, 2), 3},
     # 'dictionare': {'a': 10, 'b': 20}}))
     #ex4("a", "Hello there", href=" http://python.org ", _class=" my-link ", id= " someid ")
-    #print(ex5({("key1", "", "inside", ""), ("key2", "start", "middle", "winter")}, {"key1": "come inside, it's too cold out", "key2": "start with middle  part of the winter"}))
-    print(ex6([1, 2, 2, 3, 4, 3, 4, 1, 6, 7, 8, 9, 7, 3, 7]))
+    print(ex5({("key1", "", "inside", ""), ("key2", "start", "start", "start")}, {"key1": "come inside, it's too cold out", "key2": "start"}))
+    #print(ex6([1, 2, 2, 3, 4, 3, 4, 1, 6, 7, 8, 9, 7, 3, 7]))
     #print(ex7({1, 2, 3}, {}, {3, 5, 8}))
     #print(ex8({'start': 'a', 'b': 'a', 'a': '6', '6': 'z', 'x': '2', 'z': '2', '2': '2', 'y': 'start'}))
     #print(ex9(1, 2, 3, 4,'123', x='123', y=2, z=3, w=5))
