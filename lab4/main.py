@@ -77,23 +77,50 @@ class Queue:
         return False
 class Matrix:
     def __init__(self, N, M):
+        if N < 0 or M < 0:
+            return "Give positive parameters."
         self._n = N
         self._m = M
         self._matrix = [[0 for j in range(M)] for i in range(N)]
     def get(self, line, col):
-        if line > 0 and line < self._n and col > 0 and col < self._m:
-            return None
-        return self._matrix[line][col]
+        if line >= 0 and line < self._n and col >= 0 and col < self._m:
+            return self._matrix[line][col]
+        return None
+    def get_number_lines(self):
+        return self._n
+    def get_number_cols(self):
+        return self._m
     def set(self, line, col, value):
-        if line > 0 and line < self._n and col > 0 and col < self._m:
-            return "Pozitii incorecte!"
-        self._matrix[line][col] = value
+        if line >= 0 and line < self._n and col >= 0 and col < self._m:
+            self._matrix[line][col] = value
+        return "Pozitii incorecte!"
     def transpose(self):
         transpose_matrix = Matrix(self._m, self._n)
         for line in range(self._n):
             for col in range(self._m):
-                transpose_matrix[col][line] = self._matrix[line][col]
+                transpose_matrix._matrix[col][line] = self._matrix[line][col]
         return transpose_matrix
+    def multiply(self, other_matrix):
+        if self._m != other_matrix.get_number_lines():
+            return None
+        result_matrix = Matrix(self._n, other_matrix.get_number_cols())
+        for i in range(self._n):
+            for j in range(other_matrix.get_number_cols()):
+                for k in range(self._m):
+                    result_matrix._matrix[i][j] += self._matrix[i][k] * other_matrix.get(k, j)
+        return result_matrix
+    def apply_function(self, function):
+        for i in range(self._n):
+            for j in range(self._m):
+                self._matrix[i][j] = function(self._matrix[i][j])
+
+    def get_string(self):
+        matrix_str = ""
+        for row in self._matrix:
+            for item in row:
+                matrix_str = matrix_str +  str(item) + " "
+            matrix_str += "\n"
+        return matrix_str
 
 
 
@@ -104,8 +131,43 @@ if __name__ == "__main__":
     # stack1.push(("elem1", "elem2"))
     # stack1.push({1: 23, 2: 45})
     # print(stack1.pop(), stack1.pop(), stack1.pop(), stack1.pop())
-    copy = copy_element({1: [1, 2, 3], 2: ("string1", "stingggg"), "salut": {1: 2, 3: 4}})
-    print(copy)
 
+    ######Test function copy
+    # element = {1: [1, 2, 3], 2: ("string1", "stingggg"), "salut": {1: 2, 3: 4}}
+    # copy = copy_element(element)
+    # copy[1].remove(2)
+    # copy["salut"] = ""
+    # print(element)
+    # print(copy)
+    matrix1 = Matrix(2, 3)
+    matrix1.set(0, 0, 1)
+    matrix1.set(0, 1, 2)
+    matrix1.set(0, 2, 3)
+    matrix1.set(1, 0, 4)
+    matrix1.set(1, 1, 5)
+    matrix1.set(1, 2, 6)
+
+    matrix2 = Matrix(3, 3)
+    matrix2.set(0, 0, 7)
+    matrix2.set(0, 1, 8)
+    matrix2.set(0, 2, 2)
+    matrix2.set(1, 0, 9)
+    matrix2.set(1, 1, 10)
+    matrix2.set(1, 2, 10)
+    matrix2.set(2, 0, 11)
+    matrix2.set(2, 1, 12)
+    matrix2.set(2, 2, 0)
+
+    matrix3 = matrix1.multiply(matrix2)
+    print(matrix3.get_string())
+
+    matrix4 = matrix3.transpose()
+    print(matrix4.get_string())
+
+    matrix4.apply_function(lambda x: x % 5)
+    print(matrix4.get_string())
+
+    matrix3.apply_function(lambda x: str(x) + "string")
+    print(matrix3.get_string())
 
 
