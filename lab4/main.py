@@ -33,7 +33,7 @@ class Stack:
     def pop(self):
         if len(self._stack) != 0:
             return self._stack.pop(-1)
-        return None
+        return None, ""
 
     def peek(self):
         if len(self._stack) != 0:
@@ -75,6 +75,40 @@ class Queue:
         if len(self._queue) == 0:
             return True
         return False
+
+#ex3
+def apply_function_element( element, function):
+    if isinstance(element, dict):
+        copy_dict = {}
+        for key in element:
+            copy_dict[key] = copy_element(element[key], function)
+        return copy_dict
+
+    elif isinstance(element, list):
+        copy_list = []
+        for item in element:
+            copy_list.append(copy_element(item), function)
+        return copy_list
+
+    elif isinstance(element, set):
+        copy_set = {}
+        for item in element:
+            copy_set.add(copy_element(item), function)
+        return copy_set
+
+    elif isinstance(element, tuple):
+        copy_tuple = []
+        for item in element:
+            copy_tuple.append(copy_element(item), function)
+        return tuple(copy_tuple)
+
+    else:
+        try:
+            return function(element)
+        except Exception as e:
+            print(f"Something wrong in lambda function: {e}")
+
+
 class Matrix:
     def __init__(self, N, M):
         if N < 0 or M < 0:
@@ -93,26 +127,65 @@ class Matrix:
     def set(self, line, col, value):
         if line >= 0 and line < self._n and col >= 0 and col < self._m:
             self._matrix[line][col] = value
-        return "Pozitii incorecte!"
+        return "Incorrect positions!"
     def transpose(self):
         transpose_matrix = Matrix(self._m, self._n)
         for line in range(self._n):
             for col in range(self._m):
-                transpose_matrix._matrix[col][line] = self._matrix[line][col]
+                transpose_matrix.set(col, line, self._matrix[line][col])
         return transpose_matrix
+
+    #Inmultirea matricilor care contin doar numere
     def multiply(self, other_matrix):
         if self._m != other_matrix.get_number_lines():
-            return None
+            return "Number of cols matrix1 !=  number of lines matrix2!"
+
+        for i in range(self._n):
+            for j in range(self._m):
+                if not isinstance(self._matrix[i][j], (int, float)):
+                    return "The elements of matrix 1 aren't numbers!"
+
+        for i in range(other_matrix.get_number_lines()):
+            for j in range(other_matrix.get_number_cols()):
+                if not isinstance(other_matrix.get(i, j), (int, float)):
+                    return "The elements of matrix 2 aren't numbers!"
+
         result_matrix = Matrix(self._n, other_matrix.get_number_cols())
         for i in range(self._n):
             for j in range(other_matrix.get_number_cols()):
                 for k in range(self._m):
-                    result_matrix._matrix[i][j] += self._matrix[i][k] * other_matrix.get(k, j)
+                    result_matrix.set(i, j, result_matrix.get(i, j) + self._matrix[i][k] * other_matrix.get(k, j))
         return result_matrix
-    def apply_function(self, function):
+
+    #Inmultirea matricii cu un numar
+    def multiply_by_number(self, number):
+        if not isinstance(number, (int, float)):
+            return "The parameter isn't a number!"
+
         for i in range(self._n):
             for j in range(self._m):
-                self._matrix[i][j] = function(self._matrix[i][j])
+                if not isinstance(self._matrix[i][j], (int, float)):
+                    return "The elements of matrix aren't numbers!"
+        result_matrix = Matrix(self._n, self._m)
+        for i in range(self._n):
+            for j in range(self._m):
+                result_matrix.set(i, j, number * self._matrix[i][j])
+
+        return result_matrix
+
+    def apply_function(self, function):
+        if not callable(function):
+            return "Incorrect lambda function!"
+        result_matrix = Matrix(self._n, self._m)
+        for i in range(self._n):
+            for j in range(self._m):
+                #Aplicam functia pentru fiecare element al matricii, recursiv in cazul in care matricea contine dict, list, tuple, set
+                result_matrix.set(i, j, apply_function_element(self._matrix[i][j], function))
+        return result_matrix
+    def type_element(self, line, col):
+        if line >= 0 and line < self._n and col >= 0 and col < self._m:
+            return type(self._matrix[line][col])
+        return "Incorrect positions!"
 
     def get_string(self):
         matrix_str = ""
@@ -164,10 +237,15 @@ if __name__ == "__main__":
     matrix4 = matrix3.transpose()
     print(matrix4.get_string())
 
-    matrix4.apply_function(lambda x: x % 5)
-    print(matrix4.get_string())
+    print(matrix4.apply_function(lambda x: x % 5).get_string())
 
-    matrix3.apply_function(lambda x: str(x) + "string")
-    print(matrix3.get_string())
+    matrix5 = matrix3.apply_function(lambda x: str(x) + "string")
+    print(matrix5.get_string())
+
+    print(matrix5.type_element(0, 0))
+
+    print(matrix5.multiply_by_number(2))
+
+    print(matrix3.multiply_by_number(2).get_string())
 
 
