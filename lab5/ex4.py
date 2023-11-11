@@ -116,7 +116,7 @@ if __name__ == '__main__':
     manager = Manager("Man", "m123@gmail.com", 5500, "Bucuresti", 12, "SoftwareDevelopment", eng, 2)
     best = manager.find_best_engineer()
     print(best)
-    manager.increase_salary(eng[1], 500)
+    manager.increase_salary(eng[1], 600)
     print(eng[1].get_salary())
 
 
