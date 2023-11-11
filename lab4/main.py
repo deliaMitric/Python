@@ -29,11 +29,11 @@ class Stack:
     def __init__(self):
         self._stack = []
     def push(self, element):
-        self._stack.append(element)
+        self._stack.append(copy_element(element))
     def pop(self):
         if len(self._stack) != 0:
-            return self._stack.pop(-1)
-        return None, ""
+            return copy_element(self._stack.pop(-1))
+        return None
 
     def peek(self):
         if len(self._stack) != 0:
@@ -55,10 +55,10 @@ class Queue:
     def __init__(self):
         self._queue = []
     def push(self, element):
-        self._queue.append(element)
+        self._queue.append(copy_element(element))
     def pop(self):
         if len(self._queue) != 0:
-            return self._queue.pop(0)
+            return copy_element(self._queue.pop(0))
         return None
     def peek(self):
         if len(self._queue):
@@ -77,38 +77,6 @@ class Queue:
         return False
 
 #ex3
-def apply_function_element( element, function):
-    if isinstance(element, dict):
-        copy_dict = {}
-        for key in element:
-            copy_dict[key] = copy_element(element[key], function)
-        return copy_dict
-
-    elif isinstance(element, list):
-        copy_list = []
-        for item in element:
-            copy_list.append(copy_element(item), function)
-        return copy_list
-
-    elif isinstance(element, set):
-        copy_set = {}
-        for item in element:
-            copy_set.add(copy_element(item), function)
-        return copy_set
-
-    elif isinstance(element, tuple):
-        copy_tuple = []
-        for item in element:
-            copy_tuple.append(copy_element(item), function)
-        return tuple(copy_tuple)
-
-    else:
-        try:
-            return function(element)
-        except Exception as e:
-            print(f"Something wrong in lambda function: {e}")
-
-
 class Matrix:
     def __init__(self, N, M):
         if N < 0 or M < 0:
@@ -117,17 +85,14 @@ class Matrix:
         self._m = M
         self._matrix = [[0 for j in range(M)] for i in range(N)]
     def get(self, line, col):
-        if line >= 0 and line < self._n and col >= 0 and col < self._m:
-            return self._matrix[line][col]
+        return self._matrix[line][col]
         return None
     def get_number_lines(self):
         return self._n
     def get_number_cols(self):
         return self._m
     def set(self, line, col, value):
-        if line >= 0 and line < self._n and col >= 0 and col < self._m:
-            self._matrix[line][col] = value
-        return "Incorrect positions!"
+        self._matrix[line][col] = value
     def transpose(self):
         transpose_matrix = Matrix(self._m, self._n)
         for line in range(self._n):
@@ -179,8 +144,7 @@ class Matrix:
         result_matrix = Matrix(self._n, self._m)
         for i in range(self._n):
             for j in range(self._m):
-                #Aplicam functia pentru fiecare element al matricii, recursiv in cazul in care matricea contine dict, list, tuple, set
-                result_matrix.set(i, j, apply_function_element(self._matrix[i][j], function))
+                result_matrix.set(i, j, function(self._matrix[i][j]))
         return result_matrix
     def type_element(self, line, col):
         if line >= 0 and line < self._n and col >= 0 and col < self._m:
@@ -198,12 +162,12 @@ class Matrix:
 
 
 if __name__ == "__main__":
-    # stack1 = Stack()
-    # stack1.push([2, 3, 4, 5])
-    # stack1.push("113")
-    # stack1.push(("elem1", "elem2"))
-    # stack1.push({1: 23, 2: 45})
-    # print(stack1.pop(), stack1.pop(), stack1.pop(), stack1.pop())
+    stack1 = Stack()
+    stack1.push([2, 3, 4, 5])
+    stack1.push("113")
+    stack1.push(("elem1", "elem2"))
+    stack1.push({1: 23, 2: 45})
+    print(stack1.pop(), stack1.pop(), stack1.pop(), stack1.peek())
 
     ######Test function copy
     # element = {1: [1, 2, 3], 2: ("string1", "stingggg"), "salut": {1: 2, 3: 4}}
@@ -247,5 +211,9 @@ if __name__ == "__main__":
     print(matrix5.multiply_by_number(2))
 
     print(matrix3.multiply_by_number(2).get_string())
+
+    print(matrix3.get(-1, 0))
+
+
 
 
