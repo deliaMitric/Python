@@ -47,20 +47,20 @@ class Rectangle(Shape):
 
 class Triangle(Shape):
     def __init__(self, side1, side2, side3):
-        if side1 + side2 > side3 and side1 + side3 > side2 and side2 + side3 > side1:
+        if side1 + side2 > side3 and side1 + side3 > side2 and side2 + side3 > side1 and side1 > 0 and side2 > 0  and side3 > 0 :
             self._side1 = side1
             self._side2 = side2
             self._side3 = side3
     def set_side1(self, new_side1):
-        if new_side1 + self._side2 > self._side3 and new_side1 + self._side3 > self.side2  and self._side2 + self._side3 > new_side1:
+        if new_side1 + self._side2 > self._side3 and new_side1 + self._side3 > self.side2 and self._side2 + self._side3 > new_side1 and new_side1 > 0:
             self._side1 = new_side1
         return "Invalid side for a triangle!!!"
     def set_side2(self, new_side2):
-        if new_side2 + self._side1 > self._side3 and new_side2 + self._side3 > self.side1  and self._side1 + self._side3 > new_side2:
+        if new_side2 + self._side1 > self._side3 and new_side2 + self._side3 > self.side1 and self._side1 + self._side3 > new_side2 and new_side2 > 0:
             self._side2 = new_side2
         return "Invalid side for a triangle!!!"
     def set_side3(self, new_side3):
-        if new_side3 + self._side2 > self._side1 and new_side3 + self._side1 > self.side2  and self._side2 + self._side1 > new_side3:
+        if new_side3 + self._side2 > self._side1 and new_side3 + self._side1 > self.side2 and self._side2 + self._side1 > new_side3 and new_side3 > 0:
             self._side3 = new_side3
         return "Invalid side for a triangle!!!"
     def get_side1(self):

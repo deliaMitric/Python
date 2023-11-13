@@ -18,9 +18,11 @@ class Mammal(Animal):
             self._can_swim = can_swim
             self._num_births = num_births
             self._hungry = hungry
+
     def feed(self):
         if self._hungry:
             self._hungry = False
+
     def sleep(self, num_hours):
         if num_hours > 0:
             self._energy += num_hours * 2.5
