@@ -7,16 +7,22 @@ import os
 import sys
 def display_info_fis(director_path, file_extension):
     try:
+        file_extension = file_extension.lower()
+        valid_ext = [".txt", ".log", ".csv", ".json", ".doc", ".docx", ".pdf"]
         if not os.path.exists(director_path):
-            raise FileNotFoundError(f"{director_path} not found!")
+            raise FileNotFoundError(f"{director_path} nu e gasit!")
         if not os.path.isdir(director_path):
-            raise NotADirectoryError(f"{director_path} is not a directory")
+            raise NotADirectoryError(f"{director_path} nu e un director!")
+        if file_extension not in valid_ext:
+            raise Exception(f"Extensia {file_extension} este incorecta!")
+
 
         for element in os.listdir(director_path):
             complete_path = os.path.join(director_path, element)
 
-            if os.path.isfile(complete_path) and os.path.splitext(complete_path).lower() == file_extension.lower():
+            if os.path.isfile(complete_path) and os.path.splitext(complete_path)[1].lower() == file_extension:
                 #display infos
+
                 try:
                     file = open(complete_path, "r")
                     print(f"File {complete_path} content: ")
@@ -34,9 +40,13 @@ def display_info_fis(director_path, file_extension):
     except NotADirectoryError as e:
         print(e)
     except Exception as e:
-        print(f"Another exception: {e}")
+        print(f"Another exception: {e.args[0]}")
 
 if __name__ == '__main__':
-        if len(sys.argv < 3):
+        if len(sys.argv) < 3:
             print("Prea putine argumente la linia de comanda!")
         else:
+
+            directory_path = sys.argv[1]
+            file_extension = sys.argv[2]
+            display_info_fis(directory_path, file_extension)
