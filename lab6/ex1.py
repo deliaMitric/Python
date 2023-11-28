@@ -34,6 +34,8 @@ def display_info_fis(director_path, file_extension):
                     print("Nu aveti acces pentru a deschide fisierul!")
                 except:
                     print("Alta eroare legata de fisiere.")
+                finally:
+                    file.close()
 
     except FileNotFoundError as e:
         print(e)
